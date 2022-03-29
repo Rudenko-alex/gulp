@@ -1,4 +1,6 @@
-export const html = () => {
+import webpack from 'webpack-stream';
+
+export const js = () => {
   return app.gulp
     .src(app.path.src.js, { sourcemaps: true })
     .pipe(
@@ -8,6 +10,14 @@ export const html = () => {
           message: 'Error: <%= error.message %>',
         })
       )
+    )
+    .pipe(
+      webpack({
+        mode: 'development',
+        output: {
+          filename: 'app.mini.js',
+        },
+      })
     )
     .pipe(app.gulp.dest(app.path.build.js))
     .pipe(app.plugins.browsersync.stream());

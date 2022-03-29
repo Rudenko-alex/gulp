@@ -28,7 +28,7 @@ import { server } from './gulp/tasks/server.js';
 import { scss } from './gulp/tasks/scss.js';
 
 //копирование img
-import { img } from './gulp/tasks/img.js';
+import { images } from './gulp/tasks/images.js';
 
 import { js } from './gulp/tasks/js.js';
 
@@ -37,11 +37,11 @@ function watcher() {
   gulp.watch(path.watch.files, copy);
   gulp.watch(path.watch.html, html);
   gulp.watch(path.watch.scss, scss);
-  gulp.watch(path.watch.img, img);
+  gulp.watch(path.watch.images, images);
   gulp.watch(path.watch.js, js);
 }
 
-const mainTasks = gulp.parallel(copy, html, scss, img, js);
+const mainTasks = gulp.parallel(copy, html, scss, images, js);
 
 // Построение сценариев выполнения задач
 const dev = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
