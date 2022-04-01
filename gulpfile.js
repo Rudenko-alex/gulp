@@ -31,6 +31,7 @@ import { scss } from './gulp/tasks/scss.js';
 import { images } from './gulp/tasks/images.js';
 
 import { js } from './gulp/tasks/js.js';
+import { otfToTtf, ttfToWoff, fontsStyle } from './gulp/tasks/fonts.js';
 
 //наблюдатель
 function watcher() {
@@ -40,8 +41,14 @@ function watcher() {
   gulp.watch(path.watch.images, images);
   gulp.watch(path.watch.js, js);
 }
+// Последовательная обработка шрифтов
+const fonts = gulp.series(otfToTtf, ttfToWoff, fontsStyle);
 
-const mainTasks = gulp.parallel(copy, html, scss, images, js);
+//Основные задачи
+const mainTasks = gulp.series(
+  fonts,
+  gulp.parallel(copy, html, scss, images, js)
+);
 
 // Построение сценариев выполнения задач
 const dev = gulp.series(reset, mainTasks, gulp.parallel(watcher, server));
