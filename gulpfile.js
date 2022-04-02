@@ -1,3 +1,4 @@
+// gulp взят отсюда https://www.youtube.com/watch?v=jU88mLuLWlk
 //основной модуль
 import gulp from 'gulp';
 //Импорт путей
@@ -32,6 +33,7 @@ import { images } from './gulp/tasks/images.js';
 
 import { js } from './gulp/tasks/js.js';
 import { otfToTtf, ttfToWoff, fontsStyle } from './gulp/tasks/fonts.js';
+import { svgSprive } from './gulp/tasks/svgSprite.js';
 
 //наблюдатель
 function watcher() {
@@ -41,6 +43,8 @@ function watcher() {
   gulp.watch(path.watch.images, images);
   gulp.watch(path.watch.js, js);
 }
+
+export { svgSprive };
 // Последовательная обработка шрифтов
 const fonts = gulp.series(otfToTtf, ttfToWoff, fontsStyle);
 
