@@ -15,19 +15,22 @@ export const html = () => {
     )
     .pipe(fileinclude())
     .pipe(app.plugins.replace(/@img\//g, 'img/'))
-    .pipe(webpHtmlNosvg()) //работа с SVG => Webp
+    .pipe(app.plugins.if(app.isBuild, webpHtmlNosvg())) //работа с SVG => Webp
     .pipe(
-      versionNumber({
-        value: '%DT%',
-        append: {
-          key: '-v',
-          cover: 0,
-          to: ['css', 'js'],
-        },
-        output: {
-          file: 'gulp/version.json',
-        },
-      })
+      app.plugins.if(
+        app.isBuild,
+        versionNumber({
+          value: '%DT%',
+          append: {
+            key: '-v',
+            cover: 0,
+            to: ['css', 'js'],
+          },
+          output: {
+            file: 'gulp/version.json',
+          },
+        })
+      )
     )
     .pipe(app.gulp.dest(app.path.build.html))
     .pipe(app.plugins.browsersync.stream());
